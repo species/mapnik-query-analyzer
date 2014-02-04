@@ -167,12 +167,32 @@ echo "done calculating gesamtzeit ($gesamtzeit) aller queries"
 
 if [ -d slow_queries ]; then rm -rf slow_queries; fi
 mkdir  slow_queries
+#counter=0
+#while (( $counter < 10 )); do
+#for i in `head ergebnis|cut -f 4 |cut -f 3 -d" "`; do 
+#  i=
+#	new_filename="$counter-$(grep $i ergebnis|cut -f 1)-$i"
+#	cp single_queries-with-duration/$i slow_queries/$new_filename
+#	let counter=$counter+1
+#done
+
 counter=0
-for i in `head ergebnis|cut -f 4 |cut -f 3 -d" "`; do 
-	new_filename="$counter-$(grep $i ergebnis|cut -f 1)-$i"
-	cp single_queries-with-duration/$i slow_queries/$new_filename
-	let counter=$counter+1
-done
+while read -r line
+do
+  if [ "$counter" = "10" ]; then
+    break
+  fi
+
+  query_filename=$(echo "$line" | cut -f 4 |cut -f 3 -d" ")
+  if grep -q "execute" single_queries-with-duration/$query_filename; then
+    new_filename="$counter-$(grep $query_filename ergebnis|cut -f 1)-$query_filename"
+    cp single_queries-with-duration/$query_filename slow_exec_queries/$new_filename
+    let counter=$counter+1
+    continue
+  fi
+
+done < "ergebnis"
+
 
 echo -e "zeit query pro rendering\tanzahl runs pro rendering\teinzeldurchschnittszeit\tmd5sum\tfilename\tgesamtläufe einzelquery\tgesamtlaufzeit" > endergebnis
 cat ergebnis >> endergebnis
