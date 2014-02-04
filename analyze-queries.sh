@@ -165,8 +165,8 @@ gesamtzeit=`awk '{a+=$0}END{print a}' zeit-pro-query.spalte`
 
 echo "done calculating gesamtzeit ($gesamtzeit) aller queries"
 
-if [ -d slow_queries ]; then rm -rf slow_queries; fi
-mkdir  slow_queries
+if [ -d slow_exec_queries ]; then rm -rf slow_exec_queries; fi
+mkdir  slow_exec_queries
 #counter=0
 #while (( $counter < 10 )); do
 #for i in `head ergebnis|cut -f 4 |cut -f 3 -d" "`; do 
