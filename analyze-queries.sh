@@ -165,17 +165,17 @@ gesamtzeit=`awk '{a+=$0}END{print a}' zeit-pro-query.spalte`
 
 echo "done calculating gesamtzeit ($gesamtzeit) aller queries"
 
+if [ -d slow_queries ]; then rm -rf slow_queries; fi
+mkdir  slow_queries
+counter=0
+for i in `head ergebnis|cut -f 4 |cut -f 3 -d" "`; do 
+	new_filename="$counter-$(grep $i ergebnis|cut -f 1)-$i"
+	cp single_queries-with-duration/$i slow_queries/$new_filename
+	let counter=$counter+1
+done
+
 if [ -d slow_exec_queries ]; then rm -rf slow_exec_queries; fi
 mkdir  slow_exec_queries
-#counter=0
-#while (( $counter < 10 )); do
-#for i in `head ergebnis|cut -f 4 |cut -f 3 -d" "`; do 
-#  i=
-#	new_filename="$counter-$(grep $i ergebnis|cut -f 1)-$i"
-#	cp single_queries-with-duration/$i slow_queries/$new_filename
-#	let counter=$counter+1
-#done
-
 counter=0
 while read -r line
 do
