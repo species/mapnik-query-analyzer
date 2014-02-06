@@ -194,7 +194,7 @@ do
 done < "ergebnis"
 
 
-echo -e "zeit query pro rendering\tanzahl runs pro rendering\teinzeldurchschnittszeit\tmd5sum\tfilename\tgesamtläufe einzelquery\tgesamtlaufzeit" > endergebnis
+echo -e "zeit query pro rendering\tanzahl runs pro rendering\teinzeldurchschnittszeit\tmd5sum\tfilename\tgesamtläufe einzelquery\tgesamtlaufzeit($gesamtzeit)" > endergebnis
 cat ergebnis >> endergebnis
 
 head endergebnis
